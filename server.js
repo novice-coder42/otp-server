@@ -80,7 +80,6 @@ app.post("/verify-otp", (req, res) => {
 
 app.get("/", (req,res)=>{
   res.send("OTP Server Running");
-  console.log(process.env.MSG91_API_KEY);
 })
 
 app.listen(3000, () => {

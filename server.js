@@ -24,6 +24,8 @@ let otpStore = {};
   res.json({ success: true });
 
 });*/
+const axios = require("axios");
+
 app.post("/send-otp", async (req, res) => {
 
   const { phone } = req.body;
@@ -34,7 +36,7 @@ app.post("/send-otp", async (req, res) => {
       "https://api.msg91.com/api/v5/otp",
       {
         mobile: "91" + phone,
-        template_id: "69ca501632e12bca8103d412"
+        template_id: "YOUR_TEMPLATE_ID" // 🔥 REQUIRED
       },
       {
         headers: {

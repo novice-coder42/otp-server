@@ -24,34 +24,32 @@ let otpStore = {};
   res.json({ success: true });
 
 });*/
-const axios = require("axios");
-
 app.post("/send-otp", async (req, res) => {
 
   const { phone } = req.body;
 
-  const otp = Math.floor(100000 + Math.random() * 900000);
-
-  otpStore[phone] = otp;
-
-  console.log("OTP for", phone, "is", otp);
-
   try {
 
-    await axios.post("https://api.msg91.com/api/v5/otp", {
-      mobile: "91" + phone,
-      otp: otp
-    }, {
-      headers: {
-        "Content-Type": "application/json",
-        "authkey": process.env.MSG91_API_KEY
+    const response = await axios.post(
+      "https://api.msg91.com/api/v5/otp",
+      {
+        mobile: "91" + phone,
+        template_id: "69ca501632e12bca8103d412"
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          authkey: process.env.MSG91_API_KEY
+        }
       }
-    });
+    );
+
+    console.log("MSG91 RESPONSE:", response.data);
 
     res.json({ success: true });
 
   } catch (error) {
-    console.error(error.response?.data || error.message);
+    console.error("MSG91 ERROR:", error.response?.data || error.message);
     res.json({ success: false });
   }
 

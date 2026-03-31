@@ -8,7 +8,27 @@ app.use(express.json());
 
 let otpStore = {};
 // Send OTP
-const axios = require("axios");
+const axios = require('axios').default;
+
+const options = {
+  method: 'POST',
+  url: 'https://control.msg91.com/api/v5/otp',
+  params: {
+    mobile: '918956505618',
+    authkey: '504469AbVrc4TwXV69ca448bP1',
+    template_id: '69ca501632e12bca8103d412'
+  },
+  headers: {'content-type': 'application/json', 'Content-Type': 'application/JSON'},
+  data: '{\n  "Param1": "value1",\n  "Param2": "value2",\n  "Param3": "value3"\n}'
+};
+
+try {
+  const { data } = await axios.request(options);
+  console.log(data);
+} catch (error) {
+  console.error(error);
+}
+/*const axios = require("axios");
 
 app.post("/send-otp", async (req, res) => {
 
@@ -44,7 +64,7 @@ app.post("/send-otp", async (req, res) => {
     res.json({ success: false });
   }
 
-});
+});*/
 
 
 // Verify OTP

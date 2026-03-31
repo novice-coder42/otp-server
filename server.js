@@ -84,7 +84,8 @@ app.post("/send-otp", async (req, res) => {
 
 });*/
 
-
+const { phone, otp } = req.body;
+console.log(otp);
 // Verify OTP
 app.post("/verify-otp", async (req, res) => {
   const { phone, otp } = req.body;

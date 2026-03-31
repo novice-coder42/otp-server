@@ -8,15 +8,14 @@ app.use(express.json());
 
 let otpStore = {};
 // Send OTP
-const axios = require("axios");
-
 app.post("/send-otp", async (req, res) => {
   const { phone } = req.body;
+
   try {
     const response = await axios.post(
       "https://api.msg91.com/api/v5/otp",
       {
-        mobile: "91" + phone,
+        mobile: "91"+phone,
         template_id: "69ca501632e12bca8103d412"
       },
       {
@@ -27,59 +26,23 @@ app.post("/send-otp", async (req, res) => {
       }
     );
 
-    console.log("MSG91 RESPONSE:", response.data);
+    console.log("SEND OTP RESPONSE:", response.data);
 
     res.json({
       success: true,
-      message: "OTP sent successfully"
+      message: "OTP sent"
     });
 
   } catch (error) {
-    console.error("MSG91 ERROR:", error.response?.data || error.message);
+    console.error("SEND OTP ERROR:", error.response?.data || error.message);
 
     res.status(500).json({
       success: false,
-      error: error.response?.data || "Failed to send OTP"
+      error: "Failed to send OTP"
     });
   }
 });
-/*const axios = require("axios");
 
-app.post("/send-otp", async (req, res) => {
-
-  const { phone } = req.body;
-  const otp = Math.floor(100000 + Math.random() * 900000);
-
-  otpStore[phone] = otp;
-
-  console.log("OTP for", phone, "is", otp);
-
-  try {
-
-    const response = await axios.post(
-      "https://api.msg91.com/api/v5/otp",
-      {
-        mobile: "91" + phone,
-        template_id: "69ca501632e12bca8103d412"
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          authkey: process.env.MSG91_API_KEY
-        }
-      }
-    );
-
-    console.log("MSG91 RESPONSE:", response.data);
-
-    res.json({ success: true });
-
-  } catch (error) {
-    console.error("MSG91 ERROR:", error.response?.data || error.message);
-    res.json({ success: false });
-  }
-
-});*/
 
 // Verify OTP
 app.post("/verify-otp", async (req, res) => {
@@ -89,7 +52,7 @@ app.post("/verify-otp", async (req, res) => {
     const response = await axios.post(
       "https://api.msg91.com/api/v5/otp/verify",
       {
-        mobile: "91"+phone, // make sure phone DOES NOT already include 91
+        mobile: "91"+phone,
         otp: otp
       },
       {

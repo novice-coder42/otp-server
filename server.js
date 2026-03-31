@@ -13,6 +13,7 @@ const axios = require("axios");
 app.post("/send-otp", async (req, res) => {
   const { phone } = req.body;
   const otp = Math.floor(100000 + Math.random() * 900000);
+  //otpStore[phone] = otp;
   console.log("OTP for", phone, "is", otp);
   try {
     const response = await axios.post(

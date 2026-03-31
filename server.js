@@ -8,26 +8,42 @@ app.use(express.json());
 
 let otpStore = {};
 // Send OTP
-const axios = require('axios').default;
+const axios = require("axios");
 
-const options = {
-  method: 'POST',
-  url: 'https://control.msg91.com/api/v5/otp',
-  params: {
-    mobile: '918956505618',
-    authkey: '504469AbVrc4TwXV69ca448bP1',
-    template_id: '69ca501632e12bca8103d412'
-  },
-  headers: {'content-type': 'application/json', 'Content-Type': 'application/JSON'},
-  data: '{\n  "Param1": "value1",\n  "Param2": "value2",\n  "Param3": "value3"\n}'
-};
+app.post("/send-otp", async (req, res) => {
+  const { phone } = req.body;
 
-try {
-  const { data } = await axios.request(options);
-  console.log(data);
-} catch (error) {
-  console.error(error);
-}
+  try {
+    const response = await axios.post(
+      "https://api.msg91.com/api/v5/otp",
+      {
+        mobile: "91" + phone,
+        template_id: "69ca501632e12bca8103d412"
+      },
+      {
+        headers: {
+          authkey: process.env.MSG91_API_KEY,
+          "Content-Type": "application/json"
+        }
+      }
+    );
+
+    console.log("MSG91 RESPONSE:", response.data);
+
+    res.json({
+      success: true,
+      message: "OTP sent successfully"
+    });
+
+  } catch (error) {
+    console.error("MSG91 ERROR:", error.response?.data || error.message);
+
+    res.status(500).json({
+      success: false,
+      error: error.response?.data || "Failed to send OTP"
+    });
+  }
+});
 /*const axios = require("axios");
 
 app.post("/send-otp", async (req, res) => {

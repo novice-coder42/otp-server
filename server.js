@@ -93,7 +93,7 @@ app.post("/verify-otp", async (req, res) => {
     const response = await axios.post(
       "https://api.msg91.com/api/v5/otp/verify",
       {
-        mobile: phone,
+        mobile: "91" + phone, // make sure phone DOES NOT already include 91
         otp: otp
       },
       {
@@ -106,10 +106,11 @@ app.post("/verify-otp", async (req, res) => {
 
     console.log("VERIFY RESPONSE:", response.data);
 
-    res.json({
-      success: true,
-      message: "OTP verified"
-    });
+    if (response.data.type === "success") {
+      return res.json({ success: true });
+    } else {
+      return res.json({ success: false });
+    }
 
   } catch (error) {
     console.error("VERIFY ERROR:", error.response?.data || error.message);

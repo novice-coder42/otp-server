@@ -6,7 +6,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-let otpStore = {};
+const axios = require("axios");
 // Send OTP
 app.post("/send-otp", async (req, res) => {
   const { phone } = req.body;

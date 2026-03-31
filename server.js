@@ -7,23 +7,7 @@ app.use(cors());
 app.use(express.json());
 
 let otpStore = {};
-
 // Send OTP
-/*app.post("/send-otp", (req, res) => {
-
-  const { phone } = req.body;
-
-  const otp = Math.floor(100000 + Math.random() * 900000);
-
-  otpStore[phone] = otp;
-
-  console.log("OTP for", phone, "is", otp);
-
-  // SMS API will be added later
-
-  res.json({ success: true });
-
-});*/
 const axios = require("axios");
 
 app.post("/send-otp", async (req, res) => {

@@ -16,7 +16,7 @@ app.post("/send-otp", async (req, res) => {
       "https://api.msg91.com/api/v5/otp",
       {
         mobile: "91"+phone,
-        template_id: "69ca501632e12bca8103d412"
+        template_id: "69ca5092246d47534e050aa2"
       },
       {
         headers: {

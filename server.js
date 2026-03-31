@@ -7,15 +7,14 @@ app.use(cors());
 app.use(express.json());
 
 let otpStore = {};
-const otp1 = Math.floor(100000 + Math.random() * 900000);
-otpStore[phone] = otp1;
-console.log("OTP for", phone, "is", otp1);
 // Send OTP
 const axios = require("axios");
 
 app.post("/send-otp", async (req, res) => {
   const { phone } = req.body;
-
+  const otp = Math.floor(100000 + Math.random() * 900000);
+  otpStore[phone] = otp;
+  console.log("OTP for", phone, "is", otp);
   try {
     const response = await axios.post(
       "https://api.msg91.com/api/v5/otp",
@@ -123,7 +122,7 @@ app.post("/verify-otp", async (req, res) => {
 });
 
 
-app.get("/", (req,res)=>{
+app.get("/", (req, res) => {
   res.send("OTP Server Running");
 })
 

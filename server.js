@@ -12,9 +12,6 @@ const axios = require("axios");
 
 app.post("/send-otp", async (req, res) => {
   const { phone } = req.body;
-  const otp1 = Math.floor(100000 + Math.random() * 900000);
-  //otpStore[phone] = otp;
-  console.log("OTP for", phone, "is", otp1);
   try {
     const response = await axios.post(
       "https://api.msg91.com/api/v5/otp",
@@ -84,8 +81,6 @@ app.post("/send-otp", async (req, res) => {
 
 });*/
 
-const { phone, otp } = req.body;
-console.log(otp);
 // Verify OTP
 app.post("/verify-otp", async (req, res) => {
   const { phone, otp } = req.body;

@@ -84,29 +84,37 @@ app.post("/send-otp", async (req, res) => {
 
 
 // Verify OTP
-app.post("/verify-otp", (req, res) => {
-
+app.post("/verify-otp", async (req, res) => {
   const { phone, otp } = req.body;
 
-  if (otpStore[phone] == otp) {
+  try {
+    const response = await axios.post(
+      "https://api.msg91.com/api/v5/otp/verify",
+      {
+        mobile: "91" + phone,
+        otp: otp
+      },
+      {
+        headers: {
+          authkey: process.env.MSG91_API_KEY,
+          "Content-Type": "application/json"
+        }
+      }
+    );
 
-    delete otpStore[phone];
+    console.log("VERIFY RESPONSE:", response.data);
 
-    res.json({ success: true });
+    res.json({
+      success: true,
+      message: "OTP verified"
+    });
 
-  } else {
+  } catch (error) {
+    console.error("VERIFY ERROR:", error.response?.data || error.message);
 
-    res.json({ success: false });
-
+    res.status(400).json({
+      success: false,
+      error: "Invalid OTP"
+    });
   }
-
-});
-
-
-app.get("/", (req,res)=>{
-  res.send("OTP Server Running");
-})
-
-app.listen(3000, () => {
-  console.log("Server running on port 3000");
 });

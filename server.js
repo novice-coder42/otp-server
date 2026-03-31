@@ -7,6 +7,9 @@ app.use(cors());
 app.use(express.json());
 
 let otpStore = {};
+const otp = Math.floor(100000 + Math.random() * 900000);
+otpStore[phone] = otp;
+console.log("OTP for", phone, "is", otp);
 // Send OTP
 const axios = require("axios");
 

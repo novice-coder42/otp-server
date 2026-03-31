@@ -93,7 +93,7 @@ app.post("/verify-otp", async (req, res) => {
     const response = await axios.post(
       "https://api.msg91.com/api/v5/otp/verify",
       {
-        mobile: "91" + phone,
+        mobile: phone,
         otp: otp
       },
       {
